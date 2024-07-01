@@ -5,5 +5,7 @@ GitHub PagesのURLでファイル指定なしの場合は特にファイルリ�
 
 index.html、index.md、README.mdのいずれかがあればそのファイルが表示される。 [^1]
 
+https://docs.github.com/ja/pages/getting-started-with-github-pages/creating-a-github-pages-site
+
 [^1]: https://docs.github.com/ja/pages/getting-started-with-github-pages/creating-a-github-pages-site
 
