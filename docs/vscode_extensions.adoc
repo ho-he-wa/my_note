@@ -1,0 +1,26 @@
+:source-highlighter: coderay
+:toc:
+
+= VSCode拡張
+
+== ファイルの編集
+
+=== SVGファイル
+
+[options="header,autowidth"]
+|===
+|名前|ライセンス|説明|評価
+|link:https://marketplace.visualstudio.com/items?itemName=SimonSiefke.svg-preview[SVG Preview]|MIT|SVGを編集しながらプレビュー。編集自体はテキスト編集。|未評価
+|link:https://marketplace.visualstudio.com/items?itemName=henoc.svgeditor[SVG Editor]|MIT|SVGをGUIで編集。|いいかんじ
+|===
+
+== FAQ
+=== 拡張機能の画面が表示されない
+
+通常コマンドパレットからコマンドを実行して拡張機能の画面を表示する。
+
+ファイルを編集・表示する拡張機能では、既存ファイルを開く場合、ファイルをVSCodeで開いた状態でコマンドパレットからコマンドを実行して拡張機能の画面を表示する。
+
+しかし、別の機能によりファイルのプレビュー表示がされている場合、コマンドパレットから拡張機能で開くコマンドを実行しても期待する拡張機能の画面が表示されない場合がある。
+
+その場合 `ファイルを再度開くアプリケーションの選択` からVSCodeのテキストエディタで開き直し、それからコマンドパレットで拡張機能を開くコマンドを実行すると期待する拡張機能の画面が表示される。
