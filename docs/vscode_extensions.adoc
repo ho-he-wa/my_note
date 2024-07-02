@@ -4,15 +4,23 @@
 = VSCode拡張
 
 == ファイルの編集
-
 === SVGファイル
 
 [options="header,autowidth"]
 |===
-|名前|ライセンス|説明|評価
-|link:https://marketplace.visualstudio.com/items?itemName=SimonSiefke.svg-preview[SVG Preview]|MIT|SVGを編集しながらプレビュー。編集自体はテキスト編集。|未評価
-|link:https://marketplace.visualstudio.com/items?itemName=henoc.svgeditor[SVG Editor]|MIT|SVGをGUIで編集。|いいかんじ
+|名前|ライセンス|説明|オフライン|評価
+|link:https://marketplace.visualstudio.com/items?itemName=SimonSiefke.svg-preview[SVG Preview]|MIT|SVGを編集しながらプレビュー。編集自体はテキスト編集。| |未評価
+|link:https://marketplace.visualstudio.com/items?itemName=henoc.svgeditor[SVG Editor]|MIT|SVGをGUIで編集。| |いいかんじ
 |===
+
+== これから書く
+
+- AsciiDoc
+- Draw.io Integration
+- Markdown Preview Enhanced
+- Markdown All in One
+- Markdown Table Prettifier
+- Office Viewer(Markdown Editor)
 
 == FAQ
 === 拡張機能の画面が表示されない
