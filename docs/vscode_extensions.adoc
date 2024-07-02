@@ -21,6 +21,11 @@
 - Markdown All in One
 - Markdown Table Prettifier
 - Office Viewer(Markdown Editor)
+- todo-tree
+- Bookmarks
+- highlight-words
+- trailing-spaces
+- code-spell-checker
 
 == FAQ
 === 拡張機能の画面が表示されない
