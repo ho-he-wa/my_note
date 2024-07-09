@@ -1,4 +1,9 @@
 # index
+## ノート
+
+- [PHPの各バージョンでの変化](./php_versions.adoc)
+
+
 ## GitHub Pages
 ### デフォルト表示ファイル
 
