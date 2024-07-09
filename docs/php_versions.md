@@ -1,3 +1,6 @@
+- Table of Content
+{:toc}
+
 # PHPの各バージョンでの変化
 
 PHPの各バージョンでの変化について示す。
