@@ -2,7 +2,7 @@
 ## ノート
 
 
-- [PHPの各バージョンでの変化](./php_versions.html) ([.adoc](./php_versions.adoc))
+- [PHPの各バージョンでの変化](./php_versions.html) ([.adoc](./php_versions.md))
 
 
 
