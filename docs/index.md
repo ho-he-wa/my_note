@@ -1,7 +1,9 @@
 # index
 ## ノート
 
-- [PHPの各バージョンでの変化](./php_versions.adoc)
+
+- [PHPの各バージョンでの変化](./php_versions.html) ([.adoc](./php_versions.adoc))
+
 
 
 ## GitHub Pages
@@ -9,9 +11,17 @@
 
 GitHub PagesのURLでファイル指定なしの場合は特にファイルリストが表示されるわけではない。404エラーになる。
 
-index.html、index.md、README.mdのいずれかがあればそのファイルが表示される。 [^1]
+`index.html` 、`index.md` 、`README.md` のいずれかがあればそのファイルが表示される。 [^default_file]
 
-[^1]: https://docs.github.com/ja/pages/getting-started-with-github-pages/creating-a-github-pages-site
+[^default_file]: https://docs.github.com/ja/pages/getting-started-with-github-pages/creating-a-github-pages-site
+
+### リンクと.md等のレンダリング
+
+GitHub Pagesで `.md` などのファイルへのリンクを作成する場合は拡張子を `.html` にする。 [^link_extension]
+
+こうすることでレンダリングされたページが表示される。
+
+[^link_extension]: https://docs.github.com/ja/pages/getting-started-with-github-pages/creating-a-github-pages-site#next-steps
 
 ### オートリンク
 
