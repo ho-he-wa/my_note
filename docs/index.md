@@ -8,3 +8,5 @@
 - [PHPの各バージョンでの変化](./php_versions.html) ([.md](./php_versions.md))
 - [ドメイン駆動設計についてのノート](./ddd-domain_driven_design.html) ([.md](./ddd-domain_driven_design.md))
 - [GitHub Pagesについてのノート](./github_pages.html) ([.md](./dgithub_pages.md))
+- [値オブジェクト](./pattern-value_object.html) ([.md](./pattern-value_object.md))
+

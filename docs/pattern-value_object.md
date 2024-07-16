@@ -1,0 +1,495 @@
+# 値オブジェクト
+## 値オブジェクトとは
+
+値オブジェクト(Value Object)は値そのもののオブジェクトです。
+
+ドメイン駆動設計(DDD)の構成要素の1つでもありますが、値オブジェクト単独でも有用なデザインパターンです。
+
+値オブジェクトとして次のようなものがありえます。
+
+* ユーザーID
+* 姓名
+* 郵便番号
+* 電話番号
+* 生年月日
+* 年齢
+* 色
+
+値オブジェクトは次の特徴を持ちます。
+
+- 不変 (イミュータブル)
+- 交換可能 (値オブジェクトの中身を変更しない。値オブジェクトを差し替える)
+- 等価性で比較 (値オブジェクトが持つ属性が同じであれば同じ)
+
+凝集度を高めていくと自然とこの形になると考えます。
+
+データベースの定義域(ドメイン)は値オブジェクトと似た概念です。
+
+値オブジェクトは次のようなメリットがあります。
+
+* 正しくない(データの仕様に反した)オブジェクトの生成を回避できる
+* 凝集度が高くなる
+  * コードの読みやすくなる
+  * コードを再利用しやすくなる
+  * 変更範囲が局所化する
+ 
+## 値オブジェクトの適用
+
+実際にコードを用いて値オブジェクトの適用の見本を示します。
+
+以下に示すコードは実行すると、生年月日を入力して、年齢・飲酒の可否・選挙権の有無を表示します。未来日の生年月日はありえないので例外が発生するようになっています。
+
+### 値オブジェクトなし
+
+次のコードはまだ値オブジェクトを適用していないコードです。
+
+```ts
+class DateUtility {
+    static calcAge(birthDay: Date, now: Date = new Date()) {
+        const diffMs = now.getTime() - birthDay.getTime();
+        const wkAge = new Date(diffMs);
+        // Calculate the difference in years between the age Date object and the year 1970 (UNIX epoch)
+        return Math.abs(wkAge.getUTCFullYear() - 1970);
+    }
+}
+
+const input = prompt('生年月日(yyyy-mm-dd)を入力してください：', '2000-01-01');
+if (!input) {
+    throw new Error('生年月日の入力がありません。');
+}
+const birthDay = new Date(input);
+if (birthDay > new Date()) {
+    throw new Error('生年月日が未来です。');
+}
+const age = DateUtility.calcAge(birthDay);
+console.log(`今日: ${(new Date()).toLocaleDateString()}`);
+console.log(`生年月日: ${birthDay.toLocaleDateString()}`);
+console.log(`年齢: ${age}歳`);
+if (age >= 20) {
+    console.log(`飲酒: 可`);
+} else {
+    console.log(`飲酒: 不可`);
+}
+if (age >= 18) {
+    console.log(`選挙権: あり`);
+} else {
+    console.log(`選挙権: なし`);
+}
+```
+
+### 生年月日の値オブジェクトを追加
+
+ユーティリティクラス `DateUtility` を生年月日の値オブジェクト `BirthDay` にします。
+
+ユーティリティクラスのメソッドは値オブジェクトにすることは簡単です。
+
+今の状態だと `DateUtility.calcAge` の引数の1つがインスタンス変数になっただけです。
+
+```ts
+class BirthDay {
+    private date: Date;
+    constructor(date: Date) {
+        this.date = date;
+    }
+    calcAge(now: Date = new Date()) {
+        const diffMs = now.getTime() - this.date.getTime();
+        const wkAge = new Date(diffMs);
+        // Calculate the difference in years between the age Date object and the year 1970 (UNIX epoch)
+        return wkAge.getUTCFullYear() - 1970;
+    }
+}
+
+const input = prompt('生年月日(yyyy-mm-dd)を入力してください：', '2000-01-01');
+if (!input) {
+    throw new Error('生年月日の入力がありません。');
+}
+const birthDay = new Date(input);
+if (birthDay > new Date()) {
+    throw new Error('生年月日が未来です。');
+}
+const age = new BirthDay(birthDay).calcAge();
+console.log(`今日: ${(new Date()).toLocaleDateString()}`);
+console.log(`生年月日: ${birthDay.toLocaleDateString()}`);
+console.log(`年齢: ${age}歳`);
+if (age >= 20) {
+    console.log(`飲酒: 可`);
+} else {
+    console.log(`飲酒: 不可`);
+}
+if (age >= 18) {
+    console.log(`選挙権: あり`);
+} else {
+    console.log(`選挙権: なし`);
+}
+```
+
+### 生年月日のバリデーションを生年月日の値オブジェクトに移動
+
+未来日の生年月日の検証を値オブジェクト `BirthDay` に移します。
+
+これで `BirthDay` は正しい値でないとインスタンスが生成されません。
+
+インスタンスは正しい値の時だけ生成されるという考え方は「Always-Valid Domain Model」と呼ばれます。
+
+```ts
+class BirthDay {
+    private date: Date;
+    constructor(date: Date) {
+        if (date > new Date()) {
+            throw new Error('生年月日が未来です。');
+        }
+        this.date = date;
+    }
+    calcAge(now: Date = new Date()) {
+        const diffMs = now.getTime() - this.date.getTime();
+        const wkAge = new Date(diffMs);
+        // Calculate the difference in years between the age Date object and the year 1970 (UNIX epoch)
+        return wkAge.getUTCFullYear() - 1970;
+    }
+}
+
+const input = prompt('生年月日(yyyy-mm-dd)を入力してください：', '2000-01-01');
+if (!input) {
+    throw new Error('生年月日の入力がありません。');
+}
+const birthDay = new Date(input);
+const age = new BirthDay(birthDay).calcAge();
+console.log(`今日: ${(new Date()).toLocaleDateString()}`);
+console.log(`生年月日: ${birthDay.toLocaleDateString()}`);
+console.log(`年齢: ${age}歳`);
+if (age >= 20) {
+    console.log(`飲酒: 可`);
+} else {
+    console.log(`飲酒: 不可`);
+}
+if (age >= 18) {
+    console.log(`選挙権: あり`);
+} else {
+    console.log(`選挙権: なし`);
+}
+```
+
+### 年齢の値オブジェクトを追加
+
+次に年齢の値オブジェクトを追加します。
+
+年齢表示の時の `${age}歳` を `toString()` としてメソッドにします。
+
+これで年齢を表示する時に単位を気にする必要が無くなりました。
+
+```ts
+class BirthDay {
+    private date: Date;
+    constructor(date: Date) {
+        if (date > new Date()) {
+            throw new Error('生年月日が未来です。');
+        }
+        this.date = date;
+    }
+    calcAge(now: Date = new Date()) {
+        const diffMs = now.getTime() - this.date.getTime();
+        const wkAge = new Date(diffMs);
+        // Calculate the difference in years between the age Date object and the year 1970 (UNIX epoch)
+        return wkAge.getUTCFullYear() - 1970;
+    }
+}
+
+class Age {
+    private age: number;
+    constructor(age: number) {
+        this.age = age;
+    }
+    toString(suffix = '歳') {
+        return `${this.age}歳`
+    }
+    value() {
+        return this.age;
+    }
+}
+
+const input = prompt('生年月日(yyyy-mm-dd)を入力してください：', '2000-01-01');
+if (!input) {
+    throw new Error('生年月日の入力がありません。');
+}
+const birthDay = new Date(input);
+const age = new Age(new BirthDay(birthDay).calcAge());
+console.log(`今日: ${(new Date()).toLocaleDateString()}`);
+console.log(`生年月日: ${birthDay.toLocaleDateString()}`);
+console.log(`年齢: ${age.toString()}`);
+if (age.value() >= 20) {
+    console.log(`飲酒: 可`);
+} else {
+    console.log(`飲酒: 不可`);
+}
+if (age.value() >= 18) {
+    console.log(`選挙権: あり`);
+} else {
+    console.log(`選挙権: なし`);
+}
+```
+
+### 飲酒可可否、選挙権有無を年齢の値オブジェクトに移動
+
+飲酒可可否の判定と選挙権有無の判定は年齢の値と密接なロジックです。
+
+そのため `age.value() >= 20` と `age.value() >= 18` を `Age` のメソッドにします。 
+
+```ts
+class BirthDay {
+    private date: Date;
+    constructor(date: Date) {
+        if (date > new Date()) {
+            throw new Error('生年月日が未来です。');
+        }
+        this.date = date;
+    }
+    calcAge(now: Date = new Date()) {
+        const diffMs = now.getTime() - this.date.getTime();
+        const wkAge = new Date(diffMs);
+        // Calculate the difference in years between the age Date object and the year 1970 (UNIX epoch)
+        return wkAge.getUTCFullYear() - 1970;
+    }
+}
+
+class Age {
+    private age: number;
+    constructor(age: number) {
+        this.age = age;
+    }
+    toString(suffix = '歳') {
+        return `${this.age}歳`
+    }
+    value() {
+        return this.age;
+    }
+    alcoholAllowed() {
+        return this.age >= 20;
+    }
+    votingAllowed() {
+        return this.age >= 18;
+    }
+}
+
+const input = prompt('生年月日(yyyy-mm-dd)を入力してください：', '2000-01-01');
+if (!input) {
+    throw new Error('生年月日の入力がありません。');
+}
+const birthDay = new Date(input);
+const age = new Age(new BirthDay(birthDay).calcAge());
+console.log(`今日: ${(new Date()).toLocaleDateString()}`);
+console.log(`生年月日: ${birthDay.toLocaleDateString()}`);
+console.log(`年齢: ${age.toString()}`);
+if (age.alcoholAllowed()) {
+    console.log(`飲酒: 可`);
+} else {
+    console.log(`飲酒: 不可`);
+}
+if (age.votingAllowed()) {
+    console.log(`選挙権: あり`);
+} else {
+    console.log(`選挙権: なし`);
+}
+```
+
+### 生年月日の値オブジェクトから年齢を数値ではなく値オブジェクトとして返す
+
+現在の `BirthDay.calcAge` は年齢の数値を返しています。
+
+既に年齢の値オブジェクト `Age` があるので、値オブジェクトとして返すようにします。合わせてメソッド名も `age` に変更します。
+
+```ts
+class BirthDay {
+    private date: Date;
+    constructor(date: Date) {
+        if (date > new Date()) {
+            throw new Error('生年月日が未来です。');
+        }
+        this.date = date;
+    }
+    age(now: Date = new Date()) {
+        const diffMs = now.getTime() - this.date.getTime();
+        const wkAge = new Date(diffMs);
+        // Calculate the difference in years between the age Date object and the year 1970 (UNIX epoch)
+        return new Age(wkAge.getUTCFullYear() - 1970);
+    }
+}
+
+class Age {
+    private age: number;
+    constructor(age: number) {
+        this.age = age;
+    }
+    toString(suffix = '歳') {
+        return `${this.age}歳`
+    }
+    value() {
+        return this.age;
+    }
+    alcoholAllowed() {
+        return this.age >= 20;
+    }
+    votingAllowed() {
+        return this.age >= 18;
+    }
+}
+
+const input = prompt('生年月日(yyyy-mm-dd)を入力してください：', '2000-01-01');
+if (!input) {
+    throw new Error('生年月日の入力がありません。');
+}
+const birthDay = new Date(input);
+const age = new BirthDay(birthDay).age();
+console.log(`今日: ${(new Date()).toLocaleDateString()}`);
+console.log(`生年月日: ${birthDay.toLocaleDateString()}`);
+console.log(`年齢: ${age.toString()}`);
+if (age.alcoholAllowed()) {
+    console.log(`飲酒: 可`);
+} else {
+    console.log(`飲酒: 不可`);
+}
+if (age.votingAllowed()) {
+    console.log(`選挙権: あり`);
+} else {
+    console.log(`選挙権: なし`);
+}
+```
+
+### Date型と置き換えやすくする
+
+変数 `birthDay` が `Date` 型になっています。これを `BirthDay` 型にします。
+
+`BirthDay` 型にするだけだと `birthDay.toLocaleDateString()` がエラーになります。エラーを回避するため、 `BirthDay` を `Date` に変換する `asDate` を追加します。
+
+> [!NOTE] 今回は変換メソッド `asDate` を加えましたが、`BirthDay` を `Date` の派生クラスにしても良いと思います。
+
+```ts
+class BirthDay {
+    private date: Date;
+    constructor(date: Date) {
+        if (date > new Date()) {
+            throw new Error('生年月日が未来です。');
+        }
+        this.date = date;
+    }
+    age(now: Date = new Date()) {
+        const diffMs = now.getTime() - this.date.getTime();
+        const wkAge = new Date(diffMs);
+        // Calculate the difference in years between the age Date object and the year 1970 (UNIX epoch)
+        return new Age(wkAge.getUTCFullYear() - 1970);
+    }
+    asDate() {
+        return new Date(this.date);
+    }
+}
+
+class Age {
+    private age: number;
+    constructor(age: number) {
+        this.age = age;
+    }
+    toString(suffix = '歳') {
+        return `${this.age}歳`
+    }
+    value() {
+        return this.age;
+    }
+    alcoholAllowed() {
+        return this.age >= 20;
+    }
+    votingAllowed() {
+        return this.age >= 18;
+    }
+}
+
+const input = prompt('生年月日(yyyy-mm-dd)を入力してください：', '2000-01-01');
+if (!input) {
+    throw new Error('生年月日の入力がありません。');
+}
+const birthDay = new BirthDay(new Date(input));
+const age = birthDay.age();
+console.log(`今日: ${(new Date()).toLocaleDateString()}`);
+console.log(`生年月日: ${birthDay.asDate().toLocaleDateString()}`);
+console.log(`年齢: ${age.toString()}`);
+if (age.alcoholAllowed()) {
+    console.log(`飲酒: 可`);
+} else {
+    console.log(`飲酒: 不可`);
+}
+if (age.votingAllowed()) {
+    console.log(`選挙権: あり`);
+} else {
+    console.log(`選挙権: なし`);
+}
+```
+
+### 変更前と変更後
+
+全体のコード量は目に見えて増えましたが、メインの処理の部分に注目するとどうでしょうか。
+
+変更前：
+
+```ts
+const input = prompt('生年月日(yyyy-mm-dd)を入力してください：', '2000-01-01');
+if (!input) {
+    throw new Error('生年月日の入力がありません。');
+}
+const birthDay = new Date(input);
+if (birthDay > new Date()) {
+    throw new Error('生年月日が未来です。');
+}
+const age = DateUtility.calcAge(birthDay);
+console.log(`今日: ${(new Date()).toLocaleDateString()}`);
+console.log(`生年月日: ${birthDay.toLocaleDateString()}`);
+console.log(`年齢: ${age}歳`);
+if (age >= 20) {
+    console.log(`飲酒: 可`);
+} else {
+    console.log(`飲酒: 不可`);
+}
+if (age >= 18) {
+    console.log(`選挙権: あり`);
+} else {
+    console.log(`選挙権: なし`);
+}
+```
+
+変更後：
+
+```ts
+const input = prompt('生年月日(yyyy-mm-dd)を入力してください：', '2000-01-01');
+if (!input) {
+    throw new Error('生年月日の入力がありません。');
+}
+const birthDay = new BirthDay(new Date(input));
+const age = birthDay.age();
+console.log(`今日: ${(new Date()).toLocaleDateString()}`);
+console.log(`生年月日: ${birthDay.asDate().toLocaleDateString()}`);
+console.log(`年齢: ${age.toString()}`);
+if (age.alcoholAllowed()) {
+    console.log(`飲酒: 可`);
+} else {
+    console.log(`飲酒: 不可`);
+}
+if (age.votingAllowed()) {
+    console.log(`選挙権: あり`);
+} else {
+    console.log(`選挙権: なし`);
+}
+```
+
+次のような変化があります。
+
+* (a)未来日の生年月日のバリデーションが無くなった : `BirthDay` クラスに移った
+* (b)飲酒可否と選挙権有無の条件式が無くなった : `Age` クラスに移った
+* (c)年齢表示の単位が無くなった : `Age` クラスに移った
+
+最初に示したメリットが実現できています。
+
+> * 正しくない(データの仕様に反した)オブジェクトの生成を回避できる
+> * 凝集度が高くなる
+>   * コードの読みやすくなる
+>   * コードを再利用しやすくなる
+>   * 変更範囲が局所化する
+
+> [!NOTE] もしも永続化のために値オブジェクトの中身の参照が必要であればアクセサを追加しましょう。 `Age` は、アクセサ `value` があります。
+
