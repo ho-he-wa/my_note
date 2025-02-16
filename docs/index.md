@@ -12,4 +12,5 @@
 - [論理削除についてのノート](./db-soft_delete.html) ([.md](./db-soft_delete.md))
 - [論理削除レコードの悩み](./db-soft_delete--problem.html) ([.md](./db-soft_delete--problem.md))
 - [Laravel のディレクトリ構造](./laravel_directory_structure.html) ([.md](./laravel_directory_structure.md))
+- [読書：実務で役立つWBS入門./BOOK_REPORT_実務で役立つWBS入門.html) ([.md](./BOOK_REPORT_実務で役立つWBS入門.md))
 
