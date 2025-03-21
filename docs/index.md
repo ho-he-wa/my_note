@@ -13,4 +13,4 @@
 - [論理削除レコードの悩み](./db-soft_delete--problem.html) ([.md](./db-soft_delete--problem.md))
 - [Laravel のディレクトリ構造](./laravel_directory_structure.html) ([.md](./laravel_directory_structure.md))
 - [読書：実務で役立つWBS入門](./BOOK_REPORT_実務で役立つWBS入門.html) ([.md](./BOOK_REPORT_実務で役立つWBS入門.md))
-
+- [アトミックデザインが馴染まなかったのでUIコンポーネント作成ガイドライン考えてみた](./GUI-component_development_guideline.html) ([.md](./GUI-component_development_guideline.md))
