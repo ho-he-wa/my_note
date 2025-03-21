@@ -270,7 +270,7 @@ ProductView：
     - (b.3.4) テキスト ... ProductLabel、ProductText
     - (b.3.5) 画像・図形などの視覚的表現 ... Image
 
-## まとめ
+# まとめ
 
 本ガイドラインがUIコンポーネント作成の参考になれば幸いです。
 
