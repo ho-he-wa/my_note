@@ -5,6 +5,8 @@
 
 ---
 
+メソッド名で使う定番の単語。定番すぎて書くまでもないものから類義語の使い分けで悩むものまで。
+
 ## 接頭辞（Prefix）
 
 ### 状態・可能性・意図（boolean を返すもの）
@@ -126,7 +128,7 @@
 
 ## 接尾辞（Suffix）
 
-### 代替値
+### 代替値・代替処理
 
 * orNull : 代替値としてnullを返す 
   * 例 : `user.getJobOrNull()`
@@ -139,21 +141,33 @@
 * or : 2つの処理のどちらか一方を行う。`aaOrBb` の形で「aa をする。該当しなければ bb をする」
   * 例 : `user.updateOrCreate()`
 
-### コレクション・リスト
-
-* each / forEach : 各要素への処理  
-  * 例 : `list.resetEach()`
-
-### 他
+### 組合せ処理
 
 * and : 2つの処理の両方を行う。`aaAndBb` の形で「aa と bb を両方する」
   * 例 : `form.validateAndSave()`
+
+### コレクション操作・繰り返し処理
+
+* each / forEach : 各要素への処理  
+  * 例 : `list.resetEach()`
+* map : 各要素を別の値に変換する  
+  * 例 : `list.mapToNames()`
+* filter : 条件を満たす要素のみを抽出する  
+  * 例 : `users.filterActive()`
+* reduce : コレクションを畳み込む・集約する。合計や最大値などの集計処理に使われる。
+  * 例 : `orders.reduceTotalAmount()`, `scores.reduceMax()`
+
+### コンテキスト指定・条件付与
+
 * if : 条件付きで処理を行う。`aaIfXxxx` の形で「もし Xxxx であれば aa する」
   * 例 : `app.initializeIfNeeded()`, `callback.executeIfPresent()`, `form.saveIfRequired()`
-* async : 非同期処理  
-  * 例 : `repo.loadDataAsync()`
 * by : 条件やアルゴリズム指定  
   * 例 : `items.sortByDate()`, `dom.getElementById()`
 * using : 特定リソースやコンテキストを使う  
   * 例 : `handler.executeUsingSession()`
+
+### 非同期
+
+* async : 非同期処理  
+  * 例 : `repo.loadDataAsync()`
 
