@@ -15,24 +15,24 @@
   * 例 : `user.isEnabled()`, `form.isValid()`
 * has : 所有・存在を示す  
   * 例 : `node.hasChildren()`, `response.hasError()`
-* can : 実行可能か(能力や条件を満たしているか)を示す  
+* can : 実行可能か(**能力や条件** を満たしているか)を示す  
   * 例 : `command.canExecute()`, `file.canAccessFile()`
-* may : 操作が許可されているかを示す  
+* may : 操作が **許可** されているかを示す  
   * 例 : `session.mayAccessResource()`
-* will : 将来的に**そうなる意図・予定**を示す  
+* will : 将来的にそうなる意図・予定を示す  
   * 例 : `user.willSendEmail()`, `connection.willCloseSoon()`
-* should : **推奨される・あるべき状態**を示す  
+* should : すべきかを示す  
   * 例 : `request.shouldRetry()`, `ui.shouldShowWarning()`
-* must : **必須であること**を示す（制約の強調）  
+* must : 必須であることを示す（制約の強調）  
   * 例 : `user.mustBeLoggedIn()`, `user.mustChangePassword()`
-* needs : **必要があるか**を示す  
+* needs : 必要があるかを示す  
   * 例 : `session.needsRefresh()`, `client.needsAuthToken()`
 
 ---
 
 ### データ参照関連
 
-* get : 値を取得する。参照用アクセサとしてよく使われる。  
+* get : 値を取得する。**参照用アクセサ** としてよく使われる。  
   * 例 : `user.getName()`
 * find : 条件に合う1件のデータ取得 (実装によっては、識別子を使った検索や、条件に合うすべてを取得するケースもある)
   * 例 : `repo.findUserById()`
@@ -51,7 +51,7 @@
 
 ### データ更新関連
 
-* set : 値を設定する。変更用アクセサとしてよく使われる。  
+* set : 値を設定する。**変更用アクセサ** としてよく使われる。  
   * 例 : `user.setAge()`
 * add : 追加する  
   * 例 : `cart.addItem()`
