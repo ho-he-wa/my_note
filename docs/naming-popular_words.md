@@ -5,7 +5,7 @@
 
 ---
 
-## サフィックス（接頭辞）
+## 接頭辞（Prefix）
 
 ### 状態・可能性・意図（boolean を返すもの）
 
@@ -32,14 +32,14 @@
 
 * get : 値を取得する。参照用アクセサとしてよく使われる。  
   * 例 : `user.getName()`
-* find : 条件に合う1件のデータ取得  
+* find : 条件に合う1件のデータ取得 (実装によっては、識別子を使った検索や、条件に合うすべてを取得するケースもある)
   * 例 : `repo.findUserById()`
-* findAll : 複数件のデータ取得  
+* findAll : 条件に合う全てのデータ取得  
   * 例 : `repo.findAllUsers()`
+* retrieve : 保管されたデータをidやトークンのような識別子を用いて取得
+  * 例 : `auth.retrieveSession()`
 * fetch : 外部から取得する（API等）  
   * 例 : `api.fetchData()`
-* retrieve : 保管されたデータの回収  
-  * 例 : `auth.retrieveSession()`
 * load : データの読み込み  
   * 例 : `app.loadConfig()`
 * read : ファイルやストリームの読み取り  
@@ -65,39 +65,46 @@
   * 例 : `message.markAsRead()`
 * toggle : フラグの切り替えを行う  
   * 例 : `section.toggleVisibility()`
+
+---
+
+### 初期化・リセット
+
 * clear : 全て削除  
   * 例 : `cache.clearCache()`
+* cleanup : 全て削除。片付けや掃除のニュアンスが強い。
+  * 例 : `workingDirectory.cleanup()`
 * reset : 状態を初期に戻す  
   * 例 : `form.reset()`
+* init / initialize : 初期化して使用可能な状態にする。
+  * 例 : `app.initLogger()`
 
 ---
 
 ### 生成・変換関連
 
-* with : 指定値を変更した新しいインスタンスを返す。イミュータブルな set。  
+* with : 指定値を変更した新しいインスタンスを返す。 **イミュータブルな set**。  
   * 例 : `user.withName("Alice")`
 * create : 新規作成  
   * 例 : `userFactory.create()`
 * gen(generate) : 動的生成  
   * 例 : `auth.generateToken()`
-* build : 構成構築（Builderパターン等）  
-  * 例 : `requestBuilder.build()`
+* build : 複雑な文字列やオブジェクトを生成する。主に Builder パターンで使われる
+  * 例 : `sqlBuilder.build()`, `requestBuilder.build()`
 * from : 他形式からの生成。変換。of より複雑。  
   * 例 : `User.fromJson(json)`
-* of : 特定データからの生成（Factory 的）。from よりも単純。  
+* of : 特定データからの生成（Factory 的）。from よりも単純。  ※fromとofの間に厳密な境界があるわけではない
   * 例 : `User.ofList(list)`
 * parse : 文字列を構造化データへ変換  
-  * 例 : `DateParser.parseDate("2025-01-01")`
+  * 例 : `DateParser.parse("2025-01-01")`
 * hydrate : 標準オブジェクト(object)やその配列からオブジェクトを生成する。  
-  * 例 : `User.hydrateUser(obj)`, `User.hydrateUsers(objArray)`
+  * 例 : `User.hydrate(obj)`, `User.hydrate(objArray)`
 * as : 型変換やラップ。見方を変更。キャスト。  
   * 例 : `token.asString()`
 * to : 他形式へ変換。実体（データ）の変換。  
   * 例 : `user.toMap()`
 * clone / copy : 複製処理  
   * 例 : `user.clone()`, `list.copy()`
-* init / initialize : 初期化処理  
-  * 例 : `app.initLogger()`
 
 ---
 
@@ -110,31 +117,39 @@
 
 ---
 
-### 他
+### 例外の制御
 
-* try : 処理に失敗する可能性があるが、例外をスローしない。成功/失敗は戻り値で返す。  
+* try : 処理に失敗する可能性があるが、例外をスローしない。成功/失敗は戻り値（boolean や Result 型など）で返す。  
   * 例 : `parser.tryParse(text)`
 
 ---
 
-## サフィックス (接尾辞)
+## 接尾辞（Suffix）
 
-* orNull : null を返す可能性がある  
-  * 例 : `repo.getUserOrNull()`
-* orElse : 代替値を返す  
+### 代替値
+
+* orNull : 代替値としてnullを返す 
+  * 例 : `user.getJobOrNull()`
+* orElse : 代替値として指定の値を返す  
   * 例 : `user.getNameOrElse("default")`
-* orDefault : デフォルト値を返す  
+* orDefault : 代替値としてデフォルト値を返す  
   * 例 : `app.loadConfigOrDefault()`
 * orFail / orThrow : 失敗時に例外などを返すことを明示  
   * 例 : `repo.findUserOrFail()`
-* xxxxOrYyyy : xxxx もしくは yyyy をする。  
+* or : 2つの処理のどちらか一方を行う。`aaOrBb` の形で「aa をする。該当しなければ bb をする」
   * 例 : `user.updateOrCreate()`
-* and : 複数処理をセットで行う  
-  * 例 : `form.validateAndSave()`
-* ifXxxx : 条件付きで処理を行う（Xxxx は任意の条件）  
-  * 例 : `app.initializeIfNeeded()`, `callback.executeIfPresent()`, `form.saveIfRequired()`
+
+### コレクション・リスト
+
 * each / forEach : 各要素への処理  
   * 例 : `list.resetEach()`
+
+### 他
+
+* and : 2つの処理の両方を行う。`aaAndBb` の形で「aa と bb を両方する」
+  * 例 : `form.validateAndSave()`
+* if : 条件付きで処理を行う。`aaIfXxxx` の形で「もし Xxxx であれば aa する」
+  * 例 : `app.initializeIfNeeded()`, `callback.executeIfPresent()`, `form.saveIfRequired()`
 * async : 非同期処理  
   * 例 : `repo.loadDataAsync()`
 * by : 条件やアルゴリズム指定  
