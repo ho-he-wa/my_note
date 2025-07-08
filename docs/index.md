@@ -1,19 +1,16 @@
+- Table of Content
+{:toc}
+
 # index
-## GitHub Pages
-### デフォルト表示ファイル
+## ノート
 
-GitHub PagesのURLでファイル指定なしの場合は特にファイルリストが表示されるわけではない。404エラーになる。
 
-index.html、index.md、README.mdのいずれかがあればそのファイルが表示される。 [^1]
-
-[^1]: https://docs.github.com/ja/pages/getting-started-with-github-pages/creating-a-github-pages-site
-
-### オートリンク
-
-なぜかオートリンクが機能しない(2024/07/02現在)。
-
-次の2つのURLのうち上の方はリンクになっていないはず。
-
-https://docs.github.com/ja/pages/getting-started-with-github-pages/creating-a-github-pages-site
-
-[https://docs.github.com/ja/pages/getting-started-with-github-pages/creating-a-github-pages-site](https://docs.github.com/ja/pages/getting-started-with-github-pages/creating-a-github-pages-site)
+- [PHPの各バージョンでの変化](./php_versions.html) ([.md](./php_versions.md))
+- [ドメイン駆動設計についてのノート](./ddd-domain_driven_design.html) ([.md](./ddd-domain_driven_design.md))
+- [GitHub Pagesについてのノート](./github_pages.html) ([.md](./github_pages.md))
+- [値オブジェクト](./pattern-value_object.html) ([.md](./pattern-value_object.md))
+- [論理削除についてのノート](./db-soft_delete.html) ([.md](./db-soft_delete.md))
+- [論理削除レコードの悩み](./db-soft_delete--problem.html) ([.md](./db-soft_delete--problem.md))
+- [Laravel のディレクトリ構造](./laravel_directory_structure.html) ([.md](./laravel_directory_structure.md))
+- [読書：実務で役立つWBS入門](./BOOK_REPORT_実務で役立つWBS入門.html) ([.md](./BOOK_REPORT_実務で役立つWBS入門.md))
+- [アトミックデザインが馴染まなかったのでUIコンポーネント作成ガイドライン考えてみた](./GUI-component_development_guideline.html) ([.md](./GUI-component_development_guideline.md))
