@@ -1,3 +1,6 @@
+- Table of Content
+{:toc}
+
 # 例外のガイドライン
 ## 例外の分類
 
