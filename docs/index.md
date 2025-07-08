@@ -14,3 +14,5 @@
 - [Laravel のディレクトリ構造](./laravel_directory_structure.html) ([.md](./laravel_directory_structure.md))
 - [読書：実務で役立つWBS入門](./BOOK_REPORT_実務で役立つWBS入門.html) ([.md](./BOOK_REPORT_実務で役立つWBS入門.md))
 - [アトミックデザインが馴染まなかったのでUIコンポーネント作成ガイドライン考えてみた](./GUI-component_development_guideline.html) ([.md](./GUI-component_development_guideline.md))
+- [例外ガイドライン](./exception-guideline.html) ([.md](./exception-guideline.md))
+- [ロギングガイドライン](./logging-guideline.html) ([.md](./logging-guideline.md))
