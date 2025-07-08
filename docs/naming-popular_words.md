@@ -95,7 +95,7 @@
   * 例 : `sqlBuilder.build()`, `requestBuilder.build()`
 * from : 他形式からの生成。変換。of より複雑。  
   * 例 : `User.fromJson(json)`
-* of : 特定データからの生成（Factory 的）。from よりも単純。  ※fromとofの間に厳密な境界があるわけではない
+* of :  他形式からの生成。from よりも単純。  ※fromとofの境界は厳密ではない
   * 例 : `User.ofList(list)`
 * parse : 文字列を構造化データへ変換  
   * 例 : `DateParser.parse("2025-01-01")`
