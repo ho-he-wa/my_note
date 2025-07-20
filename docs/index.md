@@ -17,4 +17,4 @@
 - [例外ガイドライン](./exception-guideline.html) ([.md](./exception-guideline.md))
 - [ロギングガイドライン](./logging-guideline.html) ([.md](./logging-guideline.md))
 - [メソッド名で使う定番の単語](./naming-popular_words.html) ([.md](./naming-popular_words.md))
-
+- [手順記述のガイドライン](./procedure-notation_guideline.html) ([.md](./procedure-notation_guideline.md))
